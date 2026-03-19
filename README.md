@@ -1,31 +1,47 @@
-# baremetalembedded
+# 📦 Project Name
 
-Understanding build procedure and linker script for bare metal embedded systems(ARM Cortex Mx)
+> Bare-metal embedded development.
 
-## Build Instructions
+---
+
+## 📚 Table of Contents
+
+- [📦 Project Name](#-project-name)
+  - [📚 Table of Contents](#-table-of-contents)
+  - [📝 About](#-about)
+  - [✨ Features](#-features)
+  - [🚀 Getting Started](#-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Source](#source)
+    - [Usage](#usage)
+    - [Reference](#reference)
+
+---
+
+## 📝 About
+
+> Investigate build procedure and linker script for bare metal embedded systems (ARM Cortex Mx)
+
+---
+
+## ✨ Features
+
+- ✅ Bare-metal development (startup code, linker script, led driver, blinky sample app)
+- ✅ Debug printf using semi-hosting
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- GNU Arm Embedded Toolchain (arm-none-eabi-gcc)
-- Make utility
 
-### Windows
-1. Download and install GNU Arm Embedded Toolchain from [official site](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads).
-2. Add the toolchain bin directory to your PATH environment variable.
-3. Open Command Prompt or PowerShell in the project directory.
-4. Run `make` to build the project.
+- List software dependencies or system requirements here:
+  - GNU Arm Embedded Toolchain (arm-none-eabi-gcc, arm-none-eabi-gdb)
+  - Make utility
+  - OpenOCD
+  - PuTTY
 
-### Mac
-1. Install Homebrew if not already installed: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-2. Install the toolchain: `brew install arm-none-eabi-gcc`
-3. In Terminal, navigate to the project directory.
-4. Run `make` to build the project.
-
-### Linux (Ubuntu/Debian)
-1. Install the toolchain: `sudo apt update && sudo apt install gcc-arm-none-eabi`
-2. Navigate to the project directory in Terminal.
-3. Run `make` to build the project.
-
-## Project Structure
+### Source
 
 | File                  | Description |
 |-----------------------|-------------|
@@ -37,3 +53,28 @@ Understanding build procedure and linker script for bare metal embedded systems(
 | source/stm32_startup.c| Startup code for initializing the STM32 microcontroller. |
 | source/stm32_ls.ld    | Linker script defining memory layout for STM32. |
 | source/syscalls.c     | System call implementations for bare-metal environment. |
+
+### Usage
+
+- Build normal project: **make**
+- Build project combined with semi-hosting: **make semi**
+- Clear build artifacts: **make clean**
+- Open Command Prompt, setup OpenOCD server: **make load**
+- Solution 1: Open another Command Prompt, setup GDB connection: **arm-none-eabi-gdb**
+  - Connect to OpenOCD server via port 3333: **target remote localhost:3333**
+  - Flash executable: **monitor flash write_image erase out/final.elf** or **monitor flash write_image erase out/final_sh.elf** (enable semihosting)
+  - [optional] Enable semihosting: **monitor arm semihosting enable**
+  - Reset board: **monitor reset**
+- Solution 2: Use PuTTY
+  - Host Name (or IP address): **localhost**
+  - Port: **4444**
+  - Connection type: **Telnet**
+  - Saved Sessions, create new and save
+  - **Open**
+  - Flash executable: **flash write_image erase out/final.elf** or **flash write_image erase out/final_sh.elf** (enable semihosting)
+  - [optional] Enable semihosting: **arm semihosting enable**
+  - Reset board: **reset**
+
+### Reference
+
+- https://www.udemy.com/course/embedded-system-programming-on-arm-cortex-m3m4/?referralCode=12E4B80663C357C4F867
